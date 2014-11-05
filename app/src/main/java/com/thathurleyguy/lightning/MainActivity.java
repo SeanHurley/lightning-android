@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -27,6 +28,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import retrofit.RestAdapter;
+import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -34,8 +36,8 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
-    @InjectView(R.id.layout_buttons)
-    LinearLayout buttonLayout;
+    @InjectView(R.id.layout_buttons) LinearLayout buttonLayout;
+
     private Map<Long, Switch> switches = new HashMap<Long, Switch>();
 
     @Override
@@ -71,7 +73,7 @@ public class MainActivity extends Activity {
                 .create();
 
         RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://192.168.99.249:3000")
+                .setEndpoint("http://thathurleyguy.com:9004")
                 .setConverter(new GsonConverter(gson))
                 .build();
 
@@ -137,13 +139,28 @@ public class MainActivity extends Activity {
                         .create();
 
                 RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("http://192.168.99.249:3000")
+                        .setEndpoint("http://thathurleyguy.com:9004")
                         .setConverter(new GsonConverter(gson))
                         .build();
 
                 final LightningService service = restAdapter.create(LightningService.class);
                 service.toggleDevice(device.getId())
-                        .subscribe();
+                        .subscribe(new Observer<Response>() {
+                            @Override
+                            public void onCompleted() {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onNext(Response response) {
+
+                            }
+                        });
             }
         });
         return toggleSwitch;
