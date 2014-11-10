@@ -16,8 +16,8 @@ import retrofit.http.POST;
 import retrofit.http.Path;
 import rx.Observable;
 
-public class LightningManager {
-    public interface LightningService {
+public class LightningService {
+    public interface LightningAPI {
         @GET("/wemo_devices.json")
         Observable<List<WemoDevice>> listWemoDevices();
 
@@ -38,9 +38,9 @@ public class LightningManager {
             .setConverter(new GsonConverter(gsonHandler))
             .build();
 
-    private static final LightningService LIGHTNING_SERVICE = REST_ADAPTER.create(LightningService.class);
+    private static final LightningAPI LIGHTNING_SERVICE = REST_ADAPTER.create(LightningAPI.class);
 
-    public static LightningService getService() {
+    public static LightningAPI getService() {
         return LIGHTNING_SERVICE;
     }
 }

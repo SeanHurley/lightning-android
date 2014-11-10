@@ -14,21 +14,14 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.internal.bind.DateTypeAdapter;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import retrofit.RestAdapter;
 import retrofit.client.Response;
-import retrofit.converter.GsonConverter;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
 
@@ -67,7 +60,7 @@ public class MainActivity extends Activity {
             }
         });
 
-        LightningManager.getService().listWemoDevices()
+        LightningService.getService().listWemoDevices()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<WemoDevice>>() {
                     @Override
@@ -122,7 +115,7 @@ public class MainActivity extends Activity {
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LightningManager.getService().toggleDevice(device.getId())
+                LightningService.getService().toggleDevice(device.getId())
                         .subscribe(new Observer<Response>() {
                             @Override
                             public void onCompleted() {
