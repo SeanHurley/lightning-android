@@ -66,18 +66,8 @@ public class MainActivity extends Activity {
             public void onCancelled(FirebaseError error) {
             }
         });
-        Gson gson = new GsonBuilder()
-                .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                .registerTypeAdapter(Date.class, new DateTypeAdapter())
-                .create();
 
-        RestAdapter restAdapter = new RestAdapter.Builder()
-                .setEndpoint("http://thathurleyguy.com:9004")
-                .setConverter(new GsonConverter(gson))
-                .build();
-
-        final LightningService service = restAdapter.create(LightningService.class);
-        service.listWemoDevices()
+        LightningManager.getService().listWemoDevices()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<WemoDevice>>() {
                     @Override
@@ -132,18 +122,7 @@ public class MainActivity extends Activity {
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Gson gson = new GsonBuilder()
-                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
-                        .registerTypeAdapter(Date.class, new DateTypeAdapter())
-                        .create();
-
-                RestAdapter restAdapter = new RestAdapter.Builder()
-                        .setEndpoint("http://thathurleyguy.com:9004")
-                        .setConverter(new GsonConverter(gson))
-                        .build();
-
-                final LightningService service = restAdapter.create(LightningService.class);
-                service.toggleDevice(device.getId())
+                LightningManager.getService().toggleDevice(device.getId())
                         .subscribe(new Observer<Response>() {
                             @Override
                             public void onCompleted() {
