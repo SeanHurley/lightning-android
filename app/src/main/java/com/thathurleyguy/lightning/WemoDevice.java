@@ -1,15 +1,14 @@
 package com.thathurleyguy.lightning;
 
-/**
- * Created by hurley on 10/31/14.
- */
+import java.util.UUID;
+
 public class WemoDevice {
-    private long id;
+    private UUID id;
     private String name;
     private boolean poweredOn;
     private boolean ipAddress;
 
-    public WemoDevice(long id, String name, boolean poweredOn, boolean ipAddress) {
+    public WemoDevice(UUID id, String name, boolean poweredOn, boolean ipAddress) {
         this.id = id;
         this.name = name;
         this.poweredOn = poweredOn;
@@ -24,11 +23,11 @@ public class WemoDevice {
         this.ipAddress = ipAddress;
     }
 
-    public long getId() {
+    public UUID getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 

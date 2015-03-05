@@ -2,6 +2,7 @@ package com.thathurleyguy.lightning;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.firebase.client.ValueEventListener;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,7 +32,7 @@ public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
     @InjectView(R.id.layout_buttons) LinearLayout buttonLayout;
 
-    private Map<Long, Switch> switches = new HashMap<Long, Switch>();
+    private Map<UUID, Switch> switches = new HashMap<UUID, Switch>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +46,15 @@ public class MainActivity extends Activity {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
-                List<HashMap> list = (List) snapshot.getValue();
-                for (HashMap obj : list) {
-                    if (obj == null)
-                        continue;
-                    Switch toggleSwitch = switches.get(obj.get("id"));
+                HashMap<String, HashMap> data = (HashMap) snapshot.getValue();
+                for (String idString : data.keySet()) {
+                    HashMap stuff = data.get(idString);
+                    UUID id = UUID.fromString(idString);
+
+                    Switch toggleSwitch = switches.get(id);
                     if (toggleSwitch == null)
                         continue;
-                    toggleSwitch.setChecked((Boolean) obj.get("powered_on"));
+                    toggleSwitch.setChecked((Boolean) stuff.get("powered_on"));
                 }
             }
 

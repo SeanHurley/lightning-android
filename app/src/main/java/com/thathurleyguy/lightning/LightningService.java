@@ -7,6 +7,7 @@ import com.google.gson.internal.bind.DateTypeAdapter;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import retrofit.RestAdapter;
 import retrofit.client.Response;
@@ -22,7 +23,7 @@ public class LightningService {
         Observable<List<WemoDevice>> listWemoDevices();
 
         @POST("/wemo_devices/{device}/toggle.json")
-        Observable<Response> toggleDevice(@Path("device") long device);
+        Observable<Response> toggleDevice(@Path("device") UUID device);
     }
 
     private static final String API_URL = "http://thathurleyguy.com:9004";
