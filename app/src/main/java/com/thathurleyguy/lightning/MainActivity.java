@@ -15,6 +15,7 @@ import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
+import com.thathurleyguy.lightning.views.WemoButton;
 
 import java.util.HashMap;
 import java.util.List;
@@ -32,7 +33,7 @@ public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
     @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
 
-    private Map<UUID, Switch> switches = new HashMap<UUID, Switch>();
+    private Map<UUID, WemoButton> switches = new HashMap<UUID, WemoButton>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,10 +52,10 @@ public class MainActivity extends Activity {
                     HashMap stuff = data.get(idString);
                     UUID id = UUID.fromString(idString);
 
-                    Switch toggleSwitch = switches.get(id);
-                    if (toggleSwitch == null)
+                    WemoButton button = switches.get(id);
+                    if (button == null)
                         continue;
-                    toggleSwitch.setChecked((Boolean) stuff.get("powered_on"));
+                    button.setChecked((Boolean) stuff.get("powered_on"));
                 }
             }
 
@@ -67,21 +68,21 @@ public class MainActivity extends Activity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<WemoDevice>>() {
                     @Override
+                    public void onNext(List<WemoDevice> wemoDevices) {
+                        for (WemoDevice device : wemoDevices) {
+                            System.out.println(device.getName() + " - " + device.getId() + " = " + device.isPoweredOn());
+                            WemoButton button = addSwitch(device);
+                            switches.put(device.getId(), button);
+                        }
+                    }
+
+                    @Override
                     public void onCompleted() {
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(List<WemoDevice> wemoDevices) {
-                        for (WemoDevice device : wemoDevices) {
-                            System.out.println(device.getName() + " - " + device.getId() + " = " + device.isPoweredOn());
-                            Switch toggleSwitch = addSwitch(device);
-                            switches.put(device.getId(), toggleSwitch);
-                        }
                     }
                 });
     }
@@ -101,49 +102,9 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    private Switch addSwitch(final WemoDevice device) {
-        LinearLayout layout = new LinearLayout(MainActivity.this);
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-        params.gravity = Gravity.CENTER;
-        layout.setLayoutParams(params);
-        layout.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout.LayoutParams innerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        innerParams.gravity = Gravity.CENTER;
-        TextView label = new TextView(MainActivity.this);
-        label.setText(device.getName());
-        label.setLayoutParams(innerParams);
-        label.setTextSize(20);
-        Switch toggleSwitch = new Switch(MainActivity.this);
-        toggleSwitch.setChecked(device.isPoweredOn());
-        toggleSwitch.setLayoutParams(innerParams);
-
-        layout.addView(label);
-        layout.addView(toggleSwitch);
-        wemoDock.addView(layout);
-
-        toggleSwitch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                LightningService.getService().toggleDevice(device.getId())
-                        .subscribe(new Observer<Response>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                            }
-
-                            @Override
-                            public void onNext(Response response) {
-
-                            }
-                        });
-            }
-        });
-        return toggleSwitch;
+    private WemoButton addSwitch(final WemoDevice device) {
+        WemoButton button = new WemoButton(MainActivity.this, device);
+        wemoDock.addView(button);
+        return button;
     }
 }

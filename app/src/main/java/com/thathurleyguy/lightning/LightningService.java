@@ -35,7 +35,7 @@ public class LightningService {
 
     private static final RestAdapter REST_ADAPTER = new RestAdapter.Builder()
             .setEndpoint(API_URL)
-            .setLogLevel(RestAdapter.LogLevel.FULL)
+            .setLogLevel(RestAdapter.LogLevel.NONE)
             .setConverter(new GsonConverter(gsonHandler))
             .build();
 
