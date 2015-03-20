@@ -2,7 +2,7 @@ package com.thathurleyguy.lightning;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,7 +30,7 @@ import rx.android.schedulers.AndroidSchedulers;
 
 public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
-    @InjectView(R.id.layout_buttons) LinearLayout buttonLayout;
+    @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
 
     private Map<UUID, Switch> switches = new HashMap<UUID, Switch>();
 
@@ -42,7 +42,7 @@ public class MainActivity extends Activity {
 
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase(FIREBASE_URL);
-        myFirebaseRef.child("lights").addValueEventListener(new ValueEventListener() {
+        myFirebaseRef.child("wemo_devices").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot snapshot) {
@@ -103,17 +103,24 @@ public class MainActivity extends Activity {
 
     private Switch addSwitch(final WemoDevice device) {
         LinearLayout layout = new LinearLayout(MainActivity.this);
-        layout.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
+        params.gravity = Gravity.CENTER;
+        layout.setLayoutParams(params);
         layout.setOrientation(LinearLayout.VERTICAL);
 
+        LinearLayout.LayoutParams innerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        innerParams.gravity = Gravity.CENTER;
         TextView label = new TextView(MainActivity.this);
         label.setText(device.getName());
+        label.setLayoutParams(innerParams);
+        label.setTextSize(20);
         Switch toggleSwitch = new Switch(MainActivity.this);
         toggleSwitch.setChecked(device.isPoweredOn());
+        toggleSwitch.setLayoutParams(innerParams);
 
         layout.addView(label);
         layout.addView(toggleSwitch);
-        buttonLayout.addView(layout);
+        wemoDock.addView(layout);
 
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
