@@ -1,10 +1,13 @@
 package com.thathurleyguy.lightning;
 
 import android.app.Activity;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -25,6 +28,7 @@ import java.util.UUID;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import butterknife.OnTouch;
 import retrofit.client.Response;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
@@ -128,40 +132,62 @@ public class MainActivity extends Activity {
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<InfraredDevice>>() {
-            @Override
-            public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(List<InfraredDevice> infraredDevices) {
+                        infraredDevice = infraredDevices.get(0);
+                    }
+                });
+    }
+
+    @OnTouch({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power})
+    public boolean handleClick(ImageView imageView, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN: {
+                imageView.getDrawable().setColorFilter(0x990000ff, PorterDuff.Mode.SRC_ATOP);
+                imageView.setBackgroundColor(0x990000ff);
+                imageView.invalidate();
+                break;
             }
-
-            @Override
-            public void onError(Throwable e) {
-                Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL: {
+                imageView.getDrawable().clearColorFilter();
+                imageView.setBackgroundColor(0);
+                imageView.invalidate();
+                break;
             }
+        }
 
-            @Override
-            public void onNext(List<InfraredDevice> infraredDevices) {
-                infraredDevice = infraredDevices.get(0);
-            }
-        });
+        return false;
     }
 
-    @OnClick(R.id.btn_power)
-    public void powerClick() {
-        sendInfraredCommand(Command.SOUND_POWER);
-        sendInfraredCommand(Command.TV_POWER);
-    }
-
-    @OnClick(R.id.btn_volume_down)
-    public void volumeDownClick() {
-        sendInfraredCommand(Command.VOLUME_DOWN);
-    }
-
-    @OnClick(R.id.btn_volume_up)
-    public void volumeUpClick() {
-        sendInfraredCommand(Command.VOLUME_UP);
-    }
-
-    private void sendInfraredCommand(String command) {
+    @OnClick({R.id.btn_power, R.id.btn_volume_down, R.id.btn_mute, R.id.btn_volume_up})
+    public void sendInfraredCommand(final ImageView button) {
+        String command = null;
+        switch (button.getId()) {
+            case R.id.btn_power:
+                command = Command.POWER;
+                break;
+            case R.id.btn_volume_up:
+                command = Command.VOLUME_UP;
+                break;
+            case R.id.btn_volume_down:
+                command = Command.VOLUME_DOWN;
+                break;
+            case R.id.btn_mute:
+                // TODO
+                command = Command.VOLUME_DOWN;
+                break;
+        }
         this.vibrator.vibrate(50);
         LightningService.getService()
                 .sendIRCommand(infraredDevice.getId(), new Command(command))
@@ -169,20 +195,19 @@ public class MainActivity extends Activity {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<Response>() {
 
-            @Override
-            public void onCompleted() {
+                    @Override
+                    public void onCompleted() {
+                    }
 
-            }
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
 
-            @Override
-            public void onError(Throwable e) {
-                e.printStackTrace();
-            }
+                    @Override
+                    public void onNext(Response response) {
 
-            @Override
-            public void onNext(Response response) {
-
-            }
-        });
+                    }
+                });
     }
 }

@@ -18,7 +18,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="20"
             android:orientation="vertical"
             android:layout_height="match_parent">
 
@@ -28,26 +28,38 @@
                 android:orientation="horizontal"
                 android:layout_height="match_parent">
 
-                <ImageButton
+                <ImageView
+                    android:id="@+id/btn_mute"
+                    android:layout_width="wrap_content"
+                    android:src="@drawable/volume_down"
+                    android:padding="4dp"
+                    android:layout_weight="1"
+                    android:scaleType="fitCenter"
+                    android:layout_height="match_parent"/>
+
+                <ImageView
                     android:id="@+id/btn_volume_down"
                     android:layout_width="wrap_content"
                     android:src="@drawable/volume_down"
+                    android:padding="4dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_volume_up"
                     android:layout_width="wrap_content"
                     android:src="@drawable/volume_up"
+                    android:padding="4dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageButton
+                <ImageView
                     android:id="@+id/btn_power"
                     android:layout_width="wrap_content"
                     android:src="@drawable/power"
+                    android:padding="4dp"
                     android:layout_weight="1"
                     android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
