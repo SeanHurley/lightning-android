@@ -1,4 +1,4 @@
-package com.thathurleyguy.lightning;
+package com.thathurleyguy.lightning.models;
 
 import java.util.UUID;
 

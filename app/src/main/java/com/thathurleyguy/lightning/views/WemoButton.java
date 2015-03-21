@@ -9,10 +9,12 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thathurleyguy.lightning.LightningService;
-import com.thathurleyguy.lightning.WemoDevice;
+import com.thathurleyguy.lightning.models.WemoDevice;
 
 import retrofit.client.Response;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class WemoButton extends LinearLayout {
     private Switch toggleSwitch;
@@ -43,7 +45,10 @@ public class WemoButton extends LinearLayout {
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LightningService.getService().toggleDevice(device.getId())
+                LightningService.getService()
+                        .toggleDevice(device.getId())
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
                         .subscribe(new Observer<Response>() {
                             @Override
                             public void onCompleted() {
