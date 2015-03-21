@@ -48,22 +48,7 @@ public class WemoButton extends LinearLayout {
                         .toggleDevice(device.getId())
                         .subscribeOn(Schedulers.newThread())
                         .observeOn(AndroidSchedulers.mainThread())
-                        .subscribe(new Observer<Response>() {
-                            @Override
-                            public void onCompleted() {
-
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                e.printStackTrace();
-                            }
-
-                            @Override
-                            public void onNext(Response response) {
-
-                            }
-                        });
+                        .subscribe();
             }
         });
     }

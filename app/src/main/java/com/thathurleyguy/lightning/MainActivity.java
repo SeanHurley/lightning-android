@@ -37,11 +37,11 @@ import rx.schedulers.Schedulers;
 
 public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
-    @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
     private Vibrator vibrator;
-
     private Map<UUID, WemoButton> switches = new HashMap<UUID, WemoButton>();
     private InfraredDevice infraredDevice;
+
+    @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,31 +76,6 @@ public class MainActivity extends Activity {
         return button;
     }
 
-    private void getWemoDevices() {
-        LightningService.getService().listWemoDevices()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.newThread())
-                .subscribe(new Observer<List<WemoDevice>>() {
-                    @Override
-                    public void onNext(List<WemoDevice> wemoDevices) {
-                        for (WemoDevice device : wemoDevices) {
-                            System.out.println(device.getName() + " - " + device.getId() + " = " + device.isPoweredOn());
-                            WemoButton button = addSwitch(device);
-                            switches.put(device.getId(), button);
-                        }
-                    }
-
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-                });
-    }
-
     private void startFirebaseListener() {
         Firebase.setAndroidContext(this);
         Firebase myFirebaseRef = new Firebase(FIREBASE_URL);
@@ -124,6 +99,31 @@ public class MainActivity extends Activity {
             public void onCancelled(FirebaseError error) {
             }
         });
+    }
+
+    private void getWemoDevices() {
+        LightningService.getService().listWemoDevices()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
+                .subscribe(new Observer<List<WemoDevice>>() {
+                    @Override
+                    public void onNext(List<WemoDevice> wemoDevices) {
+                        for (WemoDevice device : wemoDevices) {
+                            System.out.println(device.getName() + " - " + device.getId() + " = " + device.isPoweredOn());
+                            WemoButton button = addSwitch(device);
+                            switches.put(device.getId(), button);
+                        }
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+                });
     }
 
     public void getInfraredDevice() {
@@ -193,21 +193,6 @@ public class MainActivity extends Activity {
                 .sendIRCommand(infraredDevice.getId(), new Command(command))
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<Response>() {
-
-                    @Override
-                    public void onCompleted() {
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(Response response) {
-
-                    }
-                });
+                .subscribe();
     }
 }
