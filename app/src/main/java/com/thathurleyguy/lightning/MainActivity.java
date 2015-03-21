@@ -2,6 +2,7 @@ package com.thathurleyguy.lightning;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.LinearLayout;
@@ -33,6 +34,7 @@ import rx.schedulers.Schedulers;
 public class MainActivity extends Activity {
     private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
     @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
+    private Vibrator vibrator;
 
     private Map<UUID, WemoButton> switches = new HashMap<UUID, WemoButton>();
     private InfraredDevice infraredDevice;
@@ -42,6 +44,7 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
+        this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
         startFirebaseListener();
         getWemoDevices();
@@ -159,6 +162,7 @@ public class MainActivity extends Activity {
     }
 
     private void sendInfraredCommand(String command) {
+        this.vibrator.vibrate(50);
         LightningService.getService()
                 .sendIRCommand(infraredDevice.getId(), new Command(command))
                 .subscribeOn(Schedulers.newThread())

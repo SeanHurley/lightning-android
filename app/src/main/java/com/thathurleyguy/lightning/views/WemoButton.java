@@ -41,7 +41,6 @@ public class WemoButton extends LinearLayout {
         this.addView(label);
         this.addView(toggleSwitch);
 
-        System.out.println("STUFF");
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
