@@ -1,7 +1,6 @@
 package com.thathurleyguy.lightning.views;
 
 import android.content.Context;
-import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -9,37 +8,26 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import com.thathurleyguy.lightning.LightningService;
+import com.thathurleyguy.lightning.R;
 import com.thathurleyguy.lightning.models.WemoDevice;
 
-import retrofit.client.Response;
-import rx.Observer;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class WemoButton extends LinearLayout {
-    private Switch toggleSwitch;
+    @InjectView(R.id.switch_button) public Switch toggleSwitch;
+    @InjectView(R.id.text_label) public TextView label;
 
     public WemoButton(Context context, final WemoDevice device) {
         super(context);
+        inflate(context, R.layout.wemo_button, this);
+        this.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1));
+        ButterKnife.inject(this);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1);
-        params.gravity = Gravity.CENTER;
-        this.setLayoutParams(params);
-        this.setLayoutParams(params);
-        this.setOrientation(LinearLayout.VERTICAL);
-
-        LinearLayout.LayoutParams innerParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        innerParams.gravity = Gravity.CENTER;
-        TextView label = new TextView(context);
         label.setText(device.getName());
-        label.setLayoutParams(innerParams);
-        label.setTextSize(20);
-        this.toggleSwitch = new Switch(context);
         toggleSwitch.setChecked(device.isPoweredOn());
-        toggleSwitch.setLayoutParams(innerParams);
-
-        this.addView(label);
-        this.addView(toggleSwitch);
 
         toggleSwitch.setOnClickListener(new View.OnClickListener() {
             @Override

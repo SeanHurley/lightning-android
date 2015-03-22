@@ -149,7 +149,7 @@ public class MainActivity extends Activity {
                 });
     }
 
-    @OnTouch({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power})
+    @OnTouch({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power, R.id.btn_game, R.id.btn_tv, R.id.btn_something, R.id.btn_movie})
     public boolean handleClick(ImageView imageView, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
@@ -170,7 +170,7 @@ public class MainActivity extends Activity {
         return false;
     }
 
-    @OnClick({R.id.btn_power, R.id.btn_volume_down, R.id.btn_mute, R.id.btn_volume_up})
+    @OnClick({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power, R.id.btn_game, R.id.btn_tv, R.id.btn_something, R.id.btn_movie})
     public void sendInfraredCommand(final ImageView button) {
         String command = null;
         switch (button.getId()) {
@@ -187,6 +187,14 @@ public class MainActivity extends Activity {
                 // TODO
                 command = Command.VOLUME_DOWN;
                 break;
+            case R.id.btn_game:
+                command = Command.INPUT_GAME;
+                break;
+            case R.id.btn_movie:
+                command = Command.INPUT_XBMC;
+                break;
+            default:
+                command = "UNKOWN";
         }
         this.vibrator.vibrate(50);
         LightningService.getService()
