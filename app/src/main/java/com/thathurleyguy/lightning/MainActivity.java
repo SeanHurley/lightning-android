@@ -149,27 +149,6 @@ public class MainActivity extends Activity {
                 });
     }
 
-    @OnTouch({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power, R.id.btn_game, R.id.btn_tv, R.id.btn_something, R.id.btn_movie})
-    public boolean handleClick(ImageView imageView, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                imageView.getDrawable().setColorFilter(0x990000ff, PorterDuff.Mode.SRC_ATOP);
-                imageView.setBackgroundColor(0x990000ff);
-                imageView.invalidate();
-                break;
-            }
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL: {
-                imageView.getDrawable().clearColorFilter();
-                imageView.setBackgroundColor(0);
-                imageView.invalidate();
-                break;
-            }
-        }
-
-        return false;
-    }
-
     @OnClick({R.id.btn_mute, R.id.btn_volume_down, R.id.btn_volume_up, R.id.btn_power, R.id.btn_game, R.id.btn_tv, R.id.btn_something, R.id.btn_movie})
     public void sendInfraredCommand(final ImageView button) {
         String command = null;

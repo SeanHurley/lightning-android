@@ -29,40 +29,32 @@
                 android:orientation="horizontal"
                 android:layout_height="0dp">
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_mute"
                     android:layout_width="0dp"
                     android:src="@drawable/mute"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_volume_down"
                     android:layout_width="0dp"
                     android:src="@drawable/volume_down"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_volume_up"
                     android:layout_width="0dp"
                     android:src="@drawable/volume_up"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_power"
                     android:layout_width="0dp"
                     android:src="@drawable/power"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
             </LinearLayout>
 
@@ -72,40 +64,32 @@
                 android:orientation="horizontal"
                 android:layout_height="0dp">
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_something"
                     android:layout_width="0dp"
                     android:src="@drawable/tv"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_tv"
                     android:layout_width="0dp"
                     android:src="@drawable/tv"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_game"
                     android:layout_width="0dp"
                     android:src="@drawable/game"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
 
-                <ImageView
+                <com.thathurleyguy.lightning.views.IconButton
                     android:id="@+id/btn_movie"
                     android:layout_width="0dp"
                     android:src="@drawable/movie"
-                    android:padding="4dp"
                     android:layout_weight="1"
-                    android:scaleType="fitCenter"
                     android:layout_height="match_parent"/>
             </LinearLayout>
 
@@ -120,6 +104,13 @@
         android:layout_marginBottom="5dp"
         android:background="#fdfdfd"
         android:layout_height="0dp">
+
+        <fragment
+            android:name="com.thathurleyguy.lightning.views.XBMCFragment"
+            android:id="@+id/headlines_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_xbmc"/>
     </LinearLayout>
 
     <LinearLayout
