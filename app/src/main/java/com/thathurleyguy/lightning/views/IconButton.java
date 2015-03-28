@@ -34,19 +34,20 @@ public class IconButton extends ImageView {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN: {
-                getDrawable().setColorFilter(0x990000ff, PorterDuff.Mode.SRC_ATOP);
-                setBackgroundColor(0x990000ff);
-                invalidate();
-                return true;
-            }
+            case MotionEvent.ACTION_DOWN:
+                if (getDrawable() != null) {
+                    getDrawable().setColorFilter(0x990000ff, PorterDuff.Mode.SRC_ATOP);
+                    setBackgroundColor(0x990000ff);
+                    invalidate();
+                }
+                break;
             case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL: {
-                getDrawable().clearColorFilter();
-                setBackgroundColor(0);
-                invalidate();
-                return true;
-            }
+            case MotionEvent.ACTION_CANCEL:
+                if (getDrawable() != null) {
+                    getDrawable().clearColorFilter();
+                    setBackgroundColor(0);
+                    invalidate();
+                }
         }
 
         return super.onTouchEvent(event);

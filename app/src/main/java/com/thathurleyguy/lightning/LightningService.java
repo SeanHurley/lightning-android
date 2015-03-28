@@ -7,6 +7,7 @@ import com.google.gson.internal.bind.DateTypeAdapter;
 import com.thathurleyguy.lightning.models.Command;
 import com.thathurleyguy.lightning.models.InfraredDevice;
 import com.thathurleyguy.lightning.models.WemoDevice;
+import com.thathurleyguy.lightning.models.XbmcDevice;
 
 import java.util.Date;
 import java.util.List;
@@ -34,6 +35,12 @@ public class LightningService {
 
         @POST("/infrared_devices/{device}/commands.json")
         Observable<Response> sendIRCommand(@Path("device") UUID device, @Body Command command);
+
+        @GET("/xbmc_devices.json")
+        Observable<List<XbmcDevice>> listXbmcDevices();
+
+        @POST("/xbmc_devices/{device}/commands.json")
+        Observable<Response> sendXbmcCommand(@Path("device") UUID device, @Body Command command);
     }
 
     private static final String API_URL = "http://thathurleyguy.com:9004";

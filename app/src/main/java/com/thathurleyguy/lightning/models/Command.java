@@ -6,6 +6,12 @@ public class Command {
     public static final String VOLUME_DOWN = "volume_down";
     public static final String INPUT_GAME = "game";
     public static final String INPUT_XBMC = "video1";
+    public static final String XBMC_UP = "up";
+    public static final String XBMC_DOWN = "down";
+    public static final String XBMC_LEFT = "left";
+    public static final String XBMC_RIGHT = "right";
+    public static final String XBMC_PAUSE = "pause";
+    public static final String XBMC_SELECT = "select";
 
     private String command;
 
