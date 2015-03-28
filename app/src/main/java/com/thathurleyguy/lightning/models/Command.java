@@ -10,8 +10,11 @@ public class Command {
     public static final String XBMC_DOWN = "down";
     public static final String XBMC_LEFT = "left";
     public static final String XBMC_RIGHT = "right";
-    public static final String XBMC_PAUSE = "pause";
     public static final String XBMC_SELECT = "select";
+
+    public static final String XBMC_PAUSE = "pause";
+    public static final String XBMC_BACK = "back";
+    public static final String XBMC_MENU = "osd";
 
     private String command;
 

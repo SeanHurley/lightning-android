@@ -82,7 +82,7 @@ public class XBMCFragment extends Fragment {
                 });
     }
 
-    @OnClick({R.id.btn_up, R.id.btn_down, R.id.btn_left, R.id.btn_right, R.id.btn_select})
+    @OnClick({R.id.btn_up, R.id.btn_down, R.id.btn_left, R.id.btn_right, R.id.btn_select, R.id.btn_pause, R.id.btn_back, R.id.btn_menu})
     public void sendXbmcCommand(final ImageView button) {
         String command = null;
         switch (button.getId()) {
@@ -100,6 +100,15 @@ public class XBMCFragment extends Fragment {
                 break;
             case R.id.btn_select:
                 command = Command.XBMC_SELECT;
+                break;
+            case R.id.btn_back:
+                command = Command.XBMC_BACK;
+                break;
+            case R.id.btn_menu:
+                command = Command.XBMC_MENU;
+                break;
+            case R.id.btn_pause:
+                command = Command.XBMC_PAUSE;
                 break;
             default:
                 command = "UNKOWN";

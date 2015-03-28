@@ -7,11 +7,14 @@
     <TableLayout
         android:layout_width="match_parent"
         android:layout_margin="10dp"
+        android:gravity="center"
         android:layout_height="match_parent">
         <TableRow>
             <com.thathurleyguy.lightning.views.IconButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:id="@+id/btn_update"
+                android:src="@drawable/update"
                 android:layout_height="match_parent"/>
             <com.thathurleyguy.lightning.views.IconButton
                 android:id="@+id/btn_up"
@@ -22,6 +25,8 @@
             <com.thathurleyguy.lightning.views.IconButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:id="@+id/btn_menu"
+                android:src="@drawable/menu"
                 android:layout_height="match_parent"/>
         </TableRow>
         <TableRow>
@@ -48,6 +53,8 @@
             <com.thathurleyguy.lightning.views.IconButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:id="@+id/btn_back"
+                android:src="@drawable/back"
                 android:layout_height="match_parent"/>
             <com.thathurleyguy.lightning.views.IconButton
                 android:layout_width="0dp"
@@ -58,6 +65,8 @@
             <com.thathurleyguy.lightning.views.IconButton
                 android:layout_width="0dp"
                 android:layout_weight="1"
+                android:id="@+id/btn_pause"
+                android:src="@drawable/pause"
                 android:layout_height="match_parent"/>
         </TableRow>
     </TableLayout>
