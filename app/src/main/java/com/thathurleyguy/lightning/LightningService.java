@@ -34,13 +34,13 @@ public class LightningService {
         Observable<List<InfraredDevice>> listInfraredDevices();
 
         @POST("/infrared_devices/{device}/commands.json")
-        Observable<Response> sendIRCommand(@Path("device") UUID device, @Body Command command);
+        Observable<Response> sendIRCommand(@Path("device") Integer device, @Body Command command);
 
         @GET("/xbmc_devices.json")
         Observable<List<XbmcDevice>> listXbmcDevices();
 
         @POST("/xbmc_devices/{device}/commands.json")
-        Observable<Response> sendXbmcCommand(@Path("device") UUID device, @Body Command command);
+        Observable<Response> sendXbmcCommand(@Path("device") Integer device, @Body Command command);
     }
 
     private static final String API_URL = "http://thathurleyguy.com:9004";

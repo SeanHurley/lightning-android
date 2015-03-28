@@ -1,19 +1,17 @@
 package com.thathurleyguy.lightning.models;
 
-import java.util.UUID;
-
 public class XbmcDevice {
-    private UUID id;
+    private Integer id;
 
-    public XbmcDevice(UUID id) {
+    public XbmcDevice(Integer id) {
         this.id = id;
     }
 
-    public UUID getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 }
