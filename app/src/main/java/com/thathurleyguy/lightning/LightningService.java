@@ -28,7 +28,7 @@ public class LightningService {
         Observable<List<WemoDevice>> listWemoDevices();
 
         @POST("/wemo_devices/{device}/toggle.json")
-        Observable<Response> toggleDevice(@Path("device") UUID device);
+        Observable<Response> toggleDevice(@Path("device") int device);
 
         @GET("/infrared_devices.json")
         Observable<List<InfraredDevice>> listInfraredDevices();

@@ -9,10 +9,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.Firebase;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
 import com.thathurleyguy.lightning.models.Command;
 import com.thathurleyguy.lightning.models.InfraredDevice;
 import com.thathurleyguy.lightning.models.WemoDevice;
@@ -32,9 +28,8 @@ import rx.schedulers.Schedulers;
 
 
 public class MainActivity extends Activity {
-    private static final String FIREBASE_URL = "https://glaring-inferno-5664.firebaseio.com";
     private Vibrator vibrator;
-    private Map<UUID, WemoButton> switches = new HashMap<UUID, WemoButton>();
+    private Map<Integer, WemoButton> switches = new HashMap<Integer, WemoButton>();
     private InfraredDevice infraredDevice;
 
     @InjectView(R.id.wemo_dock) LinearLayout wemoDock;
@@ -46,7 +41,6 @@ public class MainActivity extends Activity {
         ButterKnife.inject(this);
         this.vibrator = (Vibrator) this.getSystemService(VIBRATOR_SERVICE);
 
-        startFirebaseListener();
         getWemoDevices();
         getInfraredDevice();
     }
@@ -70,31 +64,6 @@ public class MainActivity extends Activity {
         WemoButton button = new WemoButton(MainActivity.this, device);
         wemoDock.addView(button);
         return button;
-    }
-
-    private void startFirebaseListener() {
-        Firebase.setAndroidContext(this);
-        Firebase myFirebaseRef = new Firebase(FIREBASE_URL);
-        myFirebaseRef.child("wemo_devices").addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot snapshot) {
-                HashMap<String, HashMap> data = (HashMap) snapshot.getValue();
-                for (String idString : data.keySet()) {
-                    HashMap stuff = data.get(idString);
-                    UUID id = UUID.fromString(idString);
-
-                    WemoButton button = switches.get(id);
-                    if (button == null)
-                        continue;
-                    button.setChecked((Boolean) stuff.get("powered_on"));
-                }
-            }
-
-            @Override
-            public void onCancelled(FirebaseError error) {
-            }
-        });
     }
 
     private void getWemoDevices() {

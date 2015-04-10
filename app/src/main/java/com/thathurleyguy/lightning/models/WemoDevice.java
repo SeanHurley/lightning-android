@@ -3,12 +3,12 @@ package com.thathurleyguy.lightning.models;
 import java.util.UUID;
 
 public class WemoDevice {
-    private UUID id;
+    private int id;
     private String name;
     private boolean poweredOn;
     private boolean ipAddress;
 
-    public WemoDevice(UUID id, String name, boolean poweredOn, boolean ipAddress) {
+    public WemoDevice(int id, String name, boolean poweredOn, boolean ipAddress) {
         this.id = id;
         this.name = name;
         this.poweredOn = poweredOn;
@@ -23,11 +23,11 @@ public class WemoDevice {
         this.ipAddress = ipAddress;
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(UUID id) {
+    public void setId(int id) {
         this.id = id;
     }
 
