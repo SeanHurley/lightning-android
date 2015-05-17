@@ -1,5 +1,7 @@
 package com.thathurleyguy.lightning;
 
+import android.util.Base64;
+
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -13,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 import retrofit.converter.GsonConverter;
@@ -43,7 +46,7 @@ public class LightningService {
         Observable<Response> sendXbmcCommand(@Path("device") Integer device, @Body Command command);
     }
 
-    private static final String API_URL = "http://thathurleyguy.com:9004";
+    private static final String API_URL = "http://thathurleyguy.com/lightning";
 
     private static final Gson gsonHandler = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
@@ -54,6 +57,12 @@ public class LightningService {
             .setEndpoint(API_URL)
             .setLogLevel(RestAdapter.LogLevel.NONE)
             .setConverter(new GsonConverter(gsonHandler))
+            .setRequestInterceptor(new RequestInterceptor() {
+                @Override
+                public void intercept(RequestFacade request) {
+                    request.addHeader("Authorization", "Basic aHVybGV5OmhhaGFwYXNzd29yZA==\\n");
+                }
+            })
             .build();
 
     private static final LightningAPI LIGHTNING_SERVICE = REST_ADAPTER.create(LightningAPI.class);
