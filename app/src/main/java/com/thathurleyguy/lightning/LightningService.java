@@ -46,7 +46,7 @@ public class LightningService {
         Observable<Response> sendXbmcCommand(@Path("device") Integer device, @Body Command command);
     }
 
-    private static final String API_URL = "http://thathurleyguy.com/lightning";
+    private static final String API_URL = "https://thathurleyguy.com/lightning";
 
     private static final Gson gsonHandler = new GsonBuilder()
             .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
