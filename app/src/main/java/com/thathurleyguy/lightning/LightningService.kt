@@ -51,7 +51,7 @@ public object LightningService {
 
     private val REST_ADAPTER = RestAdapter.Builder().setEndpoint(API_URL).setLogLevel(RestAdapter.LogLevel.NONE).setConverter(GsonConverter(gsonHandler)).setRequestInterceptor(object : RequestInterceptor {
         override fun intercept(request: RequestInterceptor.RequestFacade) {
-            request.addHeader("Authorization", "Basic aHVybGV5OmhhaGFwYXNzd29yZA==\\n")
+            request.addHeader("Authorization", "Basic ${BuildConfig.LIGHTNING_PASS}")
         }
     }).build()
 

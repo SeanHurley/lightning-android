@@ -1,6 +1,20 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 
+def safeLoad(String name, Object value, Boolean override = false) {
+    if (!hasProperty(name) || override)
+        project.set name, value
+}
+
+File secretPropsFile = file('../secret.properties')
+if (secretPropsFile.exists()) {
+    Properties p = new Properties()
+    p.load(new FileInputStream(secretPropsFile))
+    p.each { name, value ->
+        safeLoad name as String, value
+    }
+}
+
 android {
     compileSdkVersion 20
     buildToolsVersion "20.0.0"
@@ -22,6 +36,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "String", "LIGHTNING_PASS", LIGHTNING_PASS
+        }
+        debug {
+            buildConfigField "String", "LIGHTNING_PASS", LIGHTNING_PASS
         }
     }
     sourceSets {
@@ -47,6 +65,7 @@ buildscript {
         classpath "org.jetbrains.kotlin:kotlin-android-extensions:$kotlin_version"
     }
 }
+
 repositories {
     mavenCentral()
 }

@@ -43,3 +43,5 @@ proguard/
 .gradle/
 build/
 bin/
+
+secret.properties
